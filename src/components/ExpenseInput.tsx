@@ -46,7 +46,7 @@ export const ExpenseInput: React.FC = () => {
     helpers: FormikHelpers<Expense>
   ) => {
     const { category, amount, date } = values;
-    console.log("type ", typeof values.amount);
+    // console.log("type ", typeof values.amount);
 
     if (!category || !amount || amount <= 0 || !date) {
       setErrorMessage("Please provide valid values in the fields.");

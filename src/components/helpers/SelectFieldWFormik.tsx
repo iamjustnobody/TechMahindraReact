@@ -47,7 +47,6 @@ export const SelectFieldWFormik: React.FC<SelectType & DropdownProps> = (
   const { setFieldValue } = useFormikContext<Expense>();
 
   const handleChange = (event: SelectChangeEvent) => {
-    console.log("input cat", event.target.value);
     // setFieldValue((fieldName ?? "category") as string, event.target.value);
     helpers.setValue(event.target.value);
   };

@@ -84,7 +84,6 @@ export const ExpenseCharts = ({ chartName }: Props) => {
 
   useMemo(() => {
     setChartData({ data, datasets });
-    console.log("darived date", derivedChartData);
   }, [derivedChartData]);
 
   const toggleHideDataset = useCallback((dataKey: string | number) => {
@@ -146,7 +145,6 @@ export const ExpenseCharts = ({ chartName }: Props) => {
                     ?.value
                 }
                 onChange={(e: any) => {
-                  console.log("chart type", e.value, e.target.value);
                   // e && setChartType(e.value);
                   e && setChartType(e.target?.value);
                 }}
@@ -190,7 +188,7 @@ export const ExpenseCharts = ({ chartName }: Props) => {
 const formatXAxis = (value: string, timeFrame: string) => {
   if (!value) return ""; // handle missing or invalid values
   const date = new Date(value);
-  console.log("value", value);
+
   if (timeFrame === "day") return format(date, "MMM d, yyyy");
   if (timeFrame === "week") return `${format(date, "MMM d, yyyy")}`;
   if (timeFrame === "month") return format(date, "MMM yyyy");
