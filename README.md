@@ -1,8 +1,8 @@
 # A Personal Finance Tracker
 
-using React.JS that allows users to track their expenses and view spending trends through a chart. \
+Using React.JS that allows users to track their expenses and view spending trends through a chart. \
 
-hosting on firebase - clicking [here](https://personal-finance-tracker-xw.firebaseapp.com/) to view the app.
+Hosting on firebase site - clicking [here](https://personal-finance-tracker-xw.firebaseapp.com/) to view the app.
 
 #### Expense Input Form:
 
@@ -16,8 +16,11 @@ hosting on firebase - clicking [here](https://personal-finance-tracker-xw.fireba
 
 #### Chart Visualization:
 
-1. Render a bar or line chart showing total spending for each day, week, or month.
-2. Use the x-axis for time (date/week/month) and the y-axis for spending.
+<!-- 1. Render a bar or line chart showing total spending for each day, week, or month.
+2. Use the x-axis for time (date/week/month) and the y-axis for spending. -->
+
+- Render a bar or line chart showing total spending for each day, week, or month.
+- Use the x-axis for time (date/week/month) and the y-axis for spending.
 
 #### Data Filtering:
 
@@ -27,7 +30,7 @@ hosting on firebase - clicking [here](https://personal-finance-tracker-xw.fireba
 
 - Show the total spending for the selected period (day, week, or month).
 
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -72,4 +75,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->
