@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Expense } from "../state/expenseReducer";
 import { useExpenseContext } from "../state/expenseContext";
 import { format, parse } from "date-fns";
@@ -11,29 +11,41 @@ interface ExpenseSummaryProps {
   filteredExpenses: Expense[];
   timeFrame: "day" | "week" | "month";
 }
-
+export function capitalizeFirstCharacter(str: string) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 const ExpenseSummary: React.FC<ExpenseSummaryProps> = ({
   groupedExpenses,
   filteredExpenses,
   timeFrame,
 }) => {
   // total spending for selected time period
-  const totalSpending = filteredExpenses.reduce(
-    (acc, expense) => acc + expense.amount,
-    0
-  );
+  //   const totalSpending = filteredExpenses.reduce(
+  //     (acc, expense) => acc + expense.amount,
+  //     0
+  //   );
+  const totalSpending = useMemo(() => {
+    return filteredExpenses.reduce((acc, expense) => acc + expense.amount, 0);
+  }, [filteredExpenses]);
 
   //  summary for grouped data - total spending for each selected time frame
-  const summary = Object.keys(groupedExpenses).map((key) => {
-    const total = groupedExpenses[key].total || 0;
-    return { timeFrame: key, total };
-  });
+  //   const summary = Object.keys(groupedExpenses).map((key) => {
+  //     const total = groupedExpenses[key].total || 0;
+  //     return { timeFrame: key, total };
+  //   });
+  const summary = useMemo(() => {
+    return Object.keys(groupedExpenses).map((key) => {
+      const total = groupedExpenses[key].total || 0;
+      return { timeFrame: key, total };
+    });
+  }, [groupedExpenses]);
 
   const { state } = useExpenseContext();
   const { startDate, endDate, expenses, categoryFilter } = state;
   return (
     <div className="expense-summary">
-      <h2>Expense Summary</h2>
+      <h3>Expense Summary</h3>
       <p>
         Total Spending
         {startDate ? ` from ${format(startDate, "dd MMM yyyy")}` : ""}
@@ -41,7 +53,9 @@ const ExpenseSummary: React.FC<ExpenseSummaryProps> = ({
         <strong>£{totalSpending.toFixed(2)}</strong>
       </p>
       <div className="grouped-expenses-summary">
-        <h3>Spending Breakdown</h3>
+        <h4>
+          Spending Breakdown for Each {capitalizeFirstCharacter(timeFrame)}
+        </h4>
         {/* <ul>
           {summary.map((entry) => (
             <li key={entry.timeFrame}>
