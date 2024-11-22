@@ -16,8 +16,8 @@ hosting on firebase - clicking [here](https://personal-finance-tracker-xw.fireba
 
 #### Chart Visualization:
 
-- Render a bar or line chart showing total spending for each day, week, or month.
-- Use the x-axis for time (date/week/month) and the y-axis for spending.
+1. Render a bar or line chart showing total spending for each day, week, or month.
+2. Use the x-axis for time (date/week/month) and the y-axis for spending.
 
 #### Data Filtering:
 
