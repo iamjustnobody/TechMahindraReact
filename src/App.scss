@@ -155,8 +155,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+
+  justify-content: space-around;
   gap: 20px;
+  flex-direction: row;
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+  }
 }
 .ExpenseList {
   .MuiList-root {
