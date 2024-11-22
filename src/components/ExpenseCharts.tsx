@@ -112,21 +112,17 @@ export const ExpenseCharts = ({ chartName }: Props) => {
   const xAxisKey_total = chartData?.datasets?.["totalDatasets"]?.find(
     (set) => set.bXAxis
   )?.datasetKey;
-  // console.log("££££££", xAxisKey);
+
   const xAxisKey_cat = chartData?.datasets?.["categoryDatasets"]?.find(
     (set) => set.bXAxis
   )?.datasetKey;
 
   return (
     <div className="DashboardCharts">
-      {/* <h3>{chartName}</h3> */}
       <div className="DashboardHeader">
         <h3>{chartName}</h3>
         {chartData && (
-          <div
-            className="ChartSelections"
-            // style={{ marginBottom: "1rem" }}
-          >
+          <div className="ChartSelections">
             <SelectFieldWOFormik
               options={timeFrameOptions}
               value={
@@ -134,7 +130,6 @@ export const ExpenseCharts = ({ chartName }: Props) => {
                   ?.value
               }
               onChange={(e: any) => {
-                // console.log('chart timefrema',e.value,e.target.value)
                 // e && setTimeFrame(e.value);
                 e && setTimeFrame(e.target?.value);
               }}
@@ -221,7 +216,7 @@ const getColor = (i: number): string => {
     "#a3cf38",
   ];
   let adjustedIndex = i;
-  while (adjustedIndex >= colorArray.length) adjustedIndex -= colorArray.length; //smart way is to divide
+  while (adjustedIndex >= colorArray.length) adjustedIndex -= colorArray.length;
   return colorArray[adjustedIndex];
 };
 
@@ -247,7 +242,7 @@ const ExpenseChart = ({
       <div className="Container">
         {!chartData ? (
           // <Spinner positionAbsolute />
-          <>loading...</>
+          <>Loading...</>
         ) : (
           <React.Fragment>
             <ResponsiveContainer minHeight={200} height="100%" width="100%">
@@ -260,9 +255,8 @@ const ExpenseChart = ({
                     stroke="#333"
                     tickLine={false}
                     axisLine={{ stroke: "#d5d5d5", strokeWidth: 2 }}
-                    // angle={-45}
-                    angle={-27} //{-30}
-                    padding={{ left: 40, right: 40 }} //{{ left: 10, right: 25 }}
+                    angle={-27}
+                    padding={{ left: 40, right: 40 }}
                     tickFormatter={(value: any) =>
                       formatXAxis(value, timeFrame)
                     }
@@ -288,7 +282,6 @@ const ExpenseChart = ({
                     width={60} //{50} //{70}
                     tick={{ fontSize: "0.9em" }}
                     tickFormatter={(value: any) =>
-                      // `${parseFloat(value).toLocaleString("en-UK")}${" GBP"}`
                       `£${parseFloat(value).toLocaleString("en-UK")}`
                     }
                   />
@@ -341,7 +334,6 @@ const ExpenseChart = ({
                     // height={800}
                     tick={{ fontSize: "0.9em" }}
                     tickFormatter={(value: any) =>
-                      // `${parseFloat(value).toLocaleString("en-UK")}${" GBP"}`
                       `£${parseFloat(value).toLocaleString("en-UK")}`
                     }
                   />

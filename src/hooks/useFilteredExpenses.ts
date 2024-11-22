@@ -12,7 +12,7 @@ export const useFilteredExpenses = (
     return expenses.filter((expense) => {
       const expenseDate = new Date(expense.date);
 
-      // Filter by date range
+      // filter by date range
       if (
         (startDate && isBefore(expenseDate, startDate)) ||
         (endDate && isAfter(expenseDate, endDate))
@@ -20,7 +20,7 @@ export const useFilteredExpenses = (
         return false;
       }
 
-      // Filter by category
+      // filter by category
       if (categoryFilter !== "all" && expense.category !== categoryFilter) {
         return false;
       }

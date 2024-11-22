@@ -30,19 +30,6 @@ export const ButtonWFormik = ({
   const { category, amount, date } = values;
   return (
     <div>
-      {/* <button
-        type="submit"
-        disabled={
-          state.generating || !category || !amount || amount <= 0 || !date
-        }
-        onClick={onClick}
-        // onSubmit={() => console.log("submitting")}
-        className={className}
-      >
-        {state.generating
-          ? "Submitting..."
-          : label ?? children ?? "Add Expense"}
-      </button> */}
       {state.generating ? (
         <LoadingButton loading variant="outlined">
           Submiting

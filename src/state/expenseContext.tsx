@@ -17,7 +17,7 @@ const parseDates = (state: State): State => {
     ...state,
     expenses: state.expenses.map((expense) => ({
       ...expense,
-      date: new Date(expense.date), // Convert string back to Date object
+      date: new Date(expense.date), // convert string back to Date object
     })),
     startDate: state.startDate ? new Date(state.startDate) : null,
     endDate: state.endDate ? new Date(state.endDate) : null,

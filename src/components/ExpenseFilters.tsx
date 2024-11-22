@@ -8,20 +8,6 @@ import { DateFieldNoFormik } from "./helpers/DateFieldNoFormik";
 export const ExpenseFilters = () => {
   const { state, dispatch } = useExpenseContext();
   const { startDate, endDate, categoryFilter, expenses } = state;
-  // useEffect(() => console.log(startDate), [startDate]);
-
-  // const uniqueCategories = useMemo(() => {
-  //   // return [...new Set(expenses.map(expense => expense.category))];
-  //   return Array.from(
-  //     new Set(state.expenses.map((expense) => expense.category))
-  //   ).map((arr) => ({ value: arr, label: arr }));
-  // }, [state.expenses]);
-  // const uniqueCategories = state.expenses.reduce((categories, expense) => {
-  //   if (!categories.includes(expense.category)) {
-  //     categories.push(expense.category);
-  //   }
-  //   return categories;
-  // }, []);
 
   const uniqueCategories = useMemo(() => {
     const categories = Array.from(
@@ -36,11 +22,7 @@ export const ExpenseFilters = () => {
   return (
     <div className="ExpenseFilter">
       <h3>Expense Filter</h3>
-      <div
-        className="FilterSection"
-        // style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}
-      >
-        {/* <div> */}
+      <div className="FilterSection">
         <DateFieldNoFormik
           value={startDate}
           onChange={(date) =>
@@ -53,36 +35,7 @@ export const ExpenseFilters = () => {
           readOnly={false}
           label={"Start date"}
         />
-        {/* <DatePicker
-          // id="startDate"
-          selected={startDate}
-          onChange={(date) =>
-            dispatch({
-              type: "Filter_StartDate",
-              payload: date ? (date as Date) : null,
-            })
-          }
-          // onSelect={(date) =>
-          //   dispatch({ type: "Filter_StartDate", payload: date as Date })
-          // }
 
-          dateFormat="yyyy-MM-dd"
-          maxDate={endDate === null ? new Date() : endDate}
-          // dateFormat="Pp"
-          // locale={"en-US"}
-          readOnly={false}
-          placeholderText={"Start date..."}
-        /> */}
-        {/* </div> */}
-        {/* <div> */}
-        {/* <label>End Date: </label> */}
-        {/* <DatePicker
-          selected={endDate}
-          onChange={(date) =>
-            dispatch({ type: "Filter_EndDate", payload: endDate as Date })
-          }
-          minDate={startDate === null ? undefined : startDate}
-        /> */}
         <DateFieldNoFormik
           value={endDate}
           onChange={(date) =>
@@ -96,48 +49,7 @@ export const ExpenseFilters = () => {
           readOnly={false}
           label={"End date"}
         />
-        {/* <DatePicker
-          // id="endDate"
-          selected={endDate}
-          onChange={(date) =>
-            dispatch({
-              type: "Filter_EndDate",
-              payload: date ? (date as Date) : null,
-            })
-          }
-          // onSelect={(date) =>
-          //   dispatch({ type: "Filter_EndDate", payload: date as Date })
-          // }
 
-          dateFormat="yyyy-MM-dd"
-          minDate={startDate === null ? undefined : startDate}
-          maxDate={new Date()}
-          // dateFormat="Pp"
-          // locale={"en-US"}
-          readOnly={false}
-          placeholderText={"End date..."}
-        /> */}
-        {/* </div> */}
-        {/* <div> */}
-        {/* <label>Category: </label>
-        <select
-          value={categoryFilter}
-          onChange={(e) =>
-            dispatch({
-              type: "Filter_Category",
-              payload: categoryFilter as string,
-            })
-          }
-        >
-          <option value="All">All</option>
-          {Array.from(new Set(state.expenses.map((exp) => exp.category))).map(
-            (category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            )
-          )}
-        </select> */}
         <SelectFieldWOFormik
           options={uniqueCategories}
           value={
@@ -145,16 +57,14 @@ export const ExpenseFilters = () => {
               ?.value
           }
           onChange={(e: any) => {
-            console.log("filter cat", e.value, e.target.value);
             dispatch({
               type: "Filter_Category",
-              payload: e?.target?.value, //e?.value, //categoryFilter as string,
+              payload: e?.target?.value, //e?.value,
             });
           }}
           label="Category: "
           id={"categoryFilter"}
         />
-        {/* </div> */}
       </div>
     </div>
   );

@@ -19,11 +19,9 @@ export interface DateFieldProps<T> {
   label?: string | null;
   readOnly?: boolean;
   onChange?: (
-    date: Dayjs | null, //Date | null,
-    // event: React.SyntheticEvent<any> | undefined
+    date: Dayjs | null,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
-  //   datePickerProps?: Omit<DatePickerProps, "onChange">;
 }
 export const DateField = function <T>({
   fieldName,
@@ -32,7 +30,6 @@ export const DateField = function <T>({
   //   datePickerProps,
   onChange,
 }: DateFieldProps<T>) {
-  //   const [dateValue, setDateValue] = useState<Dayjs | null>(null);
   const [field, meta, helpers] = useField<Expense["date"]>(
     (fieldName ?? "date") as string
   );
@@ -47,27 +44,12 @@ export const DateField = function <T>({
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label={label ?? "Date"}
-          //   value={dateValue}
-          //   onChange={onChange ?? ((newValue) => setDateValue(newValue))}
           value={dayjs(field.value ? new Date(field.value) : null)}
           onChange={
             onChange ?? ((newValue) => handleChange(convertToDate(newValue)))
           }
-          //   dateFormat="yyyy-MM-dd"
           maxDate={dayjs(new Date())}
-          // dateFormat="Pp"
-          // locale={"en-US"}
           readOnly={readOnly}
-          // placeholderText={readOnly ? "" : "Select date..."}
-          // required
-          // {...datePickerProps}
-          //   renderInput={(params:any) => (
-          //     <TextField
-          //       {...params}
-          //       error={Boolean(meta.error)}
-          //       helperText={meta.error || " "}
-          //     />
-          //   )}
           slotProps={{
             textField: {
               error: Boolean(meta.error),

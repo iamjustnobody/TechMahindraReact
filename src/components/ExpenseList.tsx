@@ -27,19 +27,6 @@ const ExpenseList: React.FC = () => {
   return (
     <div className="ExpenseList">
       <h3>Expense List</h3>
-      {/* <ul>
-        {filteredExpenses?.map(
-          (
-            expense //instead of state.expenses?.map
-          ) => (
-            <li key={expense.id}>
-              {expense.category} - ${expense.amount} on{" "}
-              {expense.date.toISOString()}
-              <button onClick={() => handleRemove(expense.id)}>Remove</button>
-            </li>
-          )
-        )}
-      </ul> */}
       <List>
         {filteredExpenses?.map(
           (
@@ -80,21 +67,15 @@ const ExpenseList: React.FC = () => {
                 // }
                 primary={
                   <Typography
-                    // variant="h6" // Larger size for primary text
-                    // color="text.primary" // Default primary color
-                    // sx={{ fontWeight: "bold" }} // Optional: make it bold
-                    variant="subtitle1" //"body1" // Smaller size for primary text
-                    color="text.primary" // Primary color
-                    sx={{ fontWeight: 500 }} // Medium font weight
+                    variant="subtitle1" //"body1" "h6"
+                    color="text.primary"
+                    sx={{ fontWeight: 500 }}
                   >
                     {`${expense.category} - £${expense.amount}`}
                   </Typography>
                 }
                 secondary={
-                  <Typography
-                    variant="body2" // Smaller size for secondary text
-                    color="text.secondary" // Secondary color (lighter shade)
-                  >
+                  <Typography variant="body2" color="text.secondary">
                     {format(expense.date, "MMM d, yyyy")}
                   </Typography>
                 }

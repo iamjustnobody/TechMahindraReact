@@ -28,14 +28,6 @@ export const ButtonWOFormik = ({
 }) => {
   return (
     <div>
-      {/* <button
-        type="button"
-        disabled={disabled}
-        onClick={onClick}
-        className={className}
-      >
-        {children}
-      </button> */}
       <Button
         variant={variant ?? "contained"}
         size={size ?? "medium"}

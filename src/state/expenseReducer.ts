@@ -1,4 +1,3 @@
-// src/state/expenseReducer.ts
 export interface Expense {
   id: string;
   category: string;

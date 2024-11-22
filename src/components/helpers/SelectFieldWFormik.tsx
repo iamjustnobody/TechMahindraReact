@@ -53,21 +53,6 @@ export const SelectFieldWFormik: React.FC<SelectType & DropdownProps> = (
   };
   return (
     <div className="SelectBox">
-      {/* <Select
-          // id="category"
-          // id={fieldName ?? "category"}
-          // options={categories}
-          options={options}
-          value={value ?? options.find((op) => op.value === field.value)}
-          onChange={onChange ?? handleChange}
-          defaultMenuIsOpen={defaultMenuIsOpen}
-          classNamePrefix={className}
-          menuPlacement="auto"
-          isMulti={isMulti}
-          isDisabled={readonly}
-          {...dropdownProps}
-        /> */}
-
       <FormControl required error={Boolean(meta.error)}>
         <InputLabel id={`SelectField-Lable-${fieldName ?? "category"}`}>
           {label ?? "Category"}
