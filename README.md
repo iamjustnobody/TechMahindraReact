@@ -1,3 +1,22 @@
+# A Personal Finance Tracker using React.JS that allows users to track their expenses and view spending trends through a chart.
+
+hosting on firebase - clicking [here](https://personal-finance-tracker-xw.firebaseapp.com/) to view the app.
+
+1.Expense Input Form:
+
+1. Fields: Category (dropdown), Amount (numeric), and Date (date picker).
+2. Validation: Ensure amount is positive, category is selected, and date is valid (not in the future).
+   2.Expense List:
+3. Display entered expenses with Category, Amount, and Date.
+4. Allow users to delete expenses.
+   3.Chart Visualization:
+5. Render a bar or line chart showing total spending for each day, week, or month.
+6. Use the x-axis for time (date/week/month) and the y-axis for spending.
+   4.Data Filtering:
+7. Filter expenses and the chart by date range and category.
+   5.Total Spending Summary:
+8. Show the total spending for the selected period (day, week, or month).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
