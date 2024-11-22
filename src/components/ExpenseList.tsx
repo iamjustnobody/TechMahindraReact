@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
 import { format } from "date-fns";
+import { categories } from "./ExpenseInput";
 
 const ExpenseList: React.FC = () => {
   const { state, dispatch } = useExpenseContext();
@@ -34,6 +35,7 @@ const ExpenseList: React.FC = () => {
           ) => (
             <ListItem
               alignItems="flex-start"
+              divider
               secondaryAction={
                 <IconButton
                   edge="end"
@@ -68,10 +70,14 @@ const ExpenseList: React.FC = () => {
                 primary={
                   <Typography
                     variant="subtitle1" //"body1" "h6"
-                    color="text.primary"
+                    // color="text.primary"
                     sx={{ fontWeight: 500 }}
                   >
-                    {`${expense.category} - £${expense.amount}`}
+                    {/* {`${expense.category} - £${expense.amount}`}  - categories or uniqueCategories from ExpenseFilters.tsx*/}
+                    {`${
+                      categories.find((cat) => expense.category === cat.value)
+                        ?.label
+                    } - £${expense.amount}`}
                   </Typography>
                 }
                 secondary={

@@ -24,6 +24,7 @@ import {
 } from "date-fns";
 import { useFilteredExpenses } from "../hooks/useFilteredExpenses";
 import { useChartData } from "../hooks/useChartData";
+import ExpenseSummary from "./ExpenseSummary";
 type Props = {
   chartName: string;
 };
@@ -79,9 +80,10 @@ export const ExpenseCharts = ({ chartName }: Props) => {
   );
 
   const derivedChartData = useChartData(filteredExpenses, timeFrame);
+  const { data, datasets, groupedExpenses } = derivedChartData;
 
   useMemo(() => {
-    setChartData(derivedChartData);
+    setChartData({ data, datasets });
     console.log("darived date", derivedChartData);
   }, [derivedChartData]);
 
@@ -118,62 +120,70 @@ export const ExpenseCharts = ({ chartName }: Props) => {
   )?.datasetKey;
 
   return (
-    <div className="DashboardCharts">
-      <div className="DashboardHeader">
-        <h3>{chartName}</h3>
-        {chartData && (
-          <div className="ChartSelections">
-            <SelectFieldWOFormik
-              options={timeFrameOptions}
-              value={
-                timeFrameOptions.find((option) => option.value === timeFrame)
-                  ?.value
-              }
-              onChange={(e: any) => {
-                // e && setTimeFrame(e.value);
-                e && setTimeFrame(e.target?.value);
-              }}
-              id={"timeFrame"} //selectProps={{ isSearchable: false }}
-              label="Time frame"
-            />
-            <SelectFieldWOFormik
-              options={chartTypeOptions}
-              value={
-                chartTypeOptions.find((option) => option.value === chartType)
-                  ?.value
-              }
-              onChange={(e: any) => {
-                console.log("chart type", e.value, e.target.value);
-                // e && setChartType(e.value);
-                e && setChartType(e.target?.value);
-              }}
-              id={"chartType"} //selectProps={{ isSearchable: false }}
-              label="Chart type"
-            />
-          </div>
-        )}
+    <>
+      <div className="DashboardCharts">
+        <div className="DashboardHeader">
+          <h3>{chartName}</h3>
+          {chartData && (
+            <div className="ChartSelections">
+              <SelectFieldWOFormik
+                options={timeFrameOptions}
+                value={
+                  timeFrameOptions.find((option) => option.value === timeFrame)
+                    ?.value
+                }
+                onChange={(e: any) => {
+                  // e && setTimeFrame(e.value);
+                  e && setTimeFrame(e.target?.value);
+                }}
+                id={"timeFrame"} //selectProps={{ isSearchable: false }}
+                label="Time frame"
+              />
+              <SelectFieldWOFormik
+                options={chartTypeOptions}
+                value={
+                  chartTypeOptions.find((option) => option.value === chartType)
+                    ?.value
+                }
+                onChange={(e: any) => {
+                  console.log("chart type", e.value, e.target.value);
+                  // e && setChartType(e.value);
+                  e && setChartType(e.target?.value);
+                }}
+                id={"chartType"} //selectProps={{ isSearchable: false }}
+                label="Chart type"
+              />
+            </div>
+          )}
+        </div>
+        <div className="ChartsContainer">
+          <ExpenseChart
+            chartData={chartData}
+            chartType={chartType}
+            timeFrame={timeFrame}
+            mobile={mobile}
+            toggleHideDataset={toggleHideDataset}
+            xAxisKey={xAxisKey_cat}
+            datasetsType="categoryDatasets"
+            classname="SpendingBreakdown"
+          />
+          <ExpenseChart
+            chartData={chartData}
+            chartType={chartType}
+            timeFrame={timeFrame}
+            mobile={mobile}
+            toggleHideDataset={toggleHideDataset}
+            xAxisKey={xAxisKey_total}
+            datasetsType="totalDatasets"
+          />
+        </div>
       </div>
-      <div className="ChartsContainer">
-        <ExpenseChart
-          chartData={chartData}
-          chartType={chartType}
-          timeFrame={timeFrame}
-          mobile={mobile}
-          toggleHideDataset={toggleHideDataset}
-          xAxisKey={xAxisKey_cat}
-          datasetsType="categoryDatasets"
-        />
-        <ExpenseChart
-          chartData={chartData}
-          chartType={chartType}
-          timeFrame={timeFrame}
-          mobile={mobile}
-          toggleHideDataset={toggleHideDataset}
-          xAxisKey={xAxisKey_total}
-          datasetsType="totalDatasets"
-        />
-      </div>
-    </div>
+      <ExpenseSummary
+        groupedExpenses={groupedExpenses}
+        filteredExpenses={filteredExpenses}
+        timeFrame={timeFrame}
+      />
+    </>
   );
 };
 
@@ -228,6 +238,7 @@ const ExpenseChart = ({
   mobile,
   toggleHideDataset,
   datasetsType,
+  classname,
 }: {
   chartData?: ChartData | null;
   chartType: ChartType;
@@ -236,151 +247,157 @@ const ExpenseChart = ({
   mobile: boolean;
   toggleHideDataset: (dataKey: string | number) => void;
   datasetsType: "categoryDatasets" | "totalDatasets";
+  classname?: string;
 }) => {
   return (
-    <div className="ChartContainer">
-      <div className="Container">
-        {!chartData ? (
-          // <Spinner positionAbsolute />
-          <>Loading...</>
-        ) : (
+    <>
+      <div className={`ChartContainer ${classname}`}>
+        <div className="Container">
+          {!chartData ? (
+            // <Spinner positionAbsolute />
+            <>Loading...</>
+          ) : (
+            <React.Fragment>
+              <ResponsiveContainer minHeight={200} height="100%" width="100%">
+                {chartType === ChartType.bar ? (
+                  <BarChart data={chartData.data}>
+                    <CartesianGrid strokeDasharray="12 3" vertical={false} />
+                    <XAxis
+                      dataKey={xAxisKey}
+                      // dataKey={"date"}
+                      stroke="#333"
+                      tickLine={false}
+                      axisLine={{ stroke: "#d5d5d5", strokeWidth: 2 }}
+                      angle={-27}
+                      padding={{ left: 40, right: 40 }}
+                      tickFormatter={(value: any) =>
+                        formatXAxis(value, timeFrame)
+                      }
+                      {...mediaProps(mobile)}
+                      /* label={{
+                  value: "Date",
+                  position: "insideBottom",
+                  fontSize: "1.2em",
+                  fontWeight: 800,
+                }} */
+                    />
+                    <YAxis
+                      stroke="#333"
+                      axisLine={false}
+                      tickLine={false}
+                      /* label={{
+                  value: "GBP",
+                  angle: -90,
+                  position: "insideLeft",
+                  fontSize: "1.2em",
+                  fontWeight: 800,
+                }} */
+                      width={60} //{50} //{70}
+                      tick={{ fontSize: "0.9em" }}
+                      tickFormatter={(value: any) =>
+                        `£${parseFloat(value).toLocaleString("en-UK")}`
+                      }
+                    />
+                    {chartData?.datasets?.[datasetsType]
+                      .filter((dataset) => !dataset.bXAxis)
+                      .map((dataset, i) => (
+                        <Bar
+                          key={i}
+                          dataKey={dataset.datasetKey}
+                          type="monotone"
+                          fill={getColor(i)}
+                          hide={!dataset.bVisible}
+                        />
+                      ))}
+                  </BarChart>
+                ) : (
+                  <LineChart data={chartData.data}>
+                    <CartesianGrid strokeDasharray="12 3" vertical={false} />
+                    <XAxis
+                      dataKey={xAxisKey}
+                      // dataKey={"date"}
+                      stroke="#333"
+                      tickLine={false}
+                      axisLine={{ stroke: "#d5d5d5", strokeWidth: 2 }}
+                      angle={-27}
+                      padding={{ left: 40, right: 40 }}
+                      tickFormatter={(value: any) =>
+                        formatXAxis(value, timeFrame)
+                      }
+                      {...mediaProps(mobile)}
+                      /* label={{
+                  value: "Date",
+                  position: "insideBottom",
+                  fontSize: "1.2em",
+                  fontWeight: 800,
+                }} */
+                    />
+                    <YAxis
+                      stroke="#333"
+                      axisLine={false}
+                      tickLine={false}
+                      /* label={{
+                  value: "GBP",
+                  angle: -90,
+                  position: "insideLeft",
+                  fontSize: "1.2em",
+                  fontWeight: 800,
+                }} */
+                      width={60} //{55}
+                      // height={800}
+                      tick={{ fontSize: "0.9em" }}
+                      tickFormatter={(value: any) =>
+                        `£${parseFloat(value).toLocaleString("en-UK")}`
+                      }
+                    />
+                    {chartData?.datasets?.[datasetsType]
+                      .filter((dataset) => !dataset.bXAxis)
+                      .map((dataset, i) => (
+                        <Line
+                          key={i}
+                          type="monotone"
+                          dataKey={dataset.datasetKey}
+                          stroke={getColor(i)}
+                          hide={!dataset.bVisible}
+                          dot={{ fill: getColor(i) }}
+                        />
+                      ))}
+                  </LineChart>
+                )}
+              </ResponsiveContainer>
+            </React.Fragment>
+          )}
+        </div>
+        {chartData && (
           <React.Fragment>
-            <ResponsiveContainer minHeight={200} height="100%" width="100%">
-              {chartType === ChartType.bar ? (
-                <BarChart data={chartData.data}>
-                  <CartesianGrid strokeDasharray="12 3" vertical={false} />
-                  <XAxis
-                    dataKey={xAxisKey}
-                    // dataKey={"date"}
-                    stroke="#333"
-                    tickLine={false}
-                    axisLine={{ stroke: "#d5d5d5", strokeWidth: 2 }}
-                    angle={-27}
-                    padding={{ left: 40, right: 40 }}
-                    tickFormatter={(value: any) =>
-                      formatXAxis(value, timeFrame)
-                    }
-                    {...mediaProps(mobile)}
-                    /* label={{
-                  value: "Date",
-                  position: "insideBottom",
-                  fontSize: "1.2em",
-                  fontWeight: 800,
-                }} */
-                  />
-                  <YAxis
-                    stroke="#333"
-                    axisLine={false}
-                    tickLine={false}
-                    /* label={{
-                  value: "GBP",
-                  angle: -90,
-                  position: "insideLeft",
-                  fontSize: "1.2em",
-                  fontWeight: 800,
-                }} */
-                    width={60} //{50} //{70}
-                    tick={{ fontSize: "0.9em" }}
-                    tickFormatter={(value: any) =>
-                      `£${parseFloat(value).toLocaleString("en-UK")}`
-                    }
-                  />
-                  {chartData?.datasets?.[datasetsType]
-                    .filter((dataset) => !dataset.bXAxis)
-                    .map((dataset, i) => (
-                      <Bar
-                        key={i}
-                        dataKey={dataset.datasetKey}
-                        type="monotone"
-                        fill={getColor(i)}
-                        hide={!dataset.bVisible}
-                      />
-                    ))}
-                </BarChart>
-              ) : (
-                <LineChart data={chartData.data}>
-                  <CartesianGrid strokeDasharray="12 3" vertical={false} />
-                  <XAxis
-                    dataKey={xAxisKey}
-                    // dataKey={"date"}
-                    stroke="#333"
-                    tickLine={false}
-                    axisLine={{ stroke: "#d5d5d5", strokeWidth: 2 }}
-                    angle={-27}
-                    padding={{ left: 40, right: 40 }}
-                    tickFormatter={(value: any) =>
-                      formatXAxis(value, timeFrame)
-                    }
-                    {...mediaProps(mobile)}
-                    /* label={{
-                  value: "Date",
-                  position: "insideBottom",
-                  fontSize: "1.2em",
-                  fontWeight: 800,
-                }} */
-                  />
-                  <YAxis
-                    stroke="#333"
-                    axisLine={false}
-                    tickLine={false}
-                    /* label={{
-                  value: "GBP",
-                  angle: -90,
-                  position: "insideLeft",
-                  fontSize: "1.2em",
-                  fontWeight: 800,
-                }} */
-                    width={60} //{55}
-                    // height={800}
-                    tick={{ fontSize: "0.9em" }}
-                    tickFormatter={(value: any) =>
-                      `£${parseFloat(value).toLocaleString("en-UK")}`
-                    }
-                  />
-                  {chartData?.datasets?.[datasetsType]
-                    .filter((dataset) => !dataset.bXAxis)
-                    .map((dataset, i) => (
-                      <Line
-                        key={i}
-                        type="monotone"
-                        dataKey={dataset.datasetKey}
-                        stroke={getColor(i)}
-                        hide={!dataset.bVisible}
-                        dot={{ fill: getColor(i) }}
-                      />
-                    ))}
-                </LineChart>
-              )}
-            </ResponsiveContainer>
+            <div className="LineToggles">
+              {chartData.datasets[datasetsType]
+                .filter((dataset) => !dataset.bXAxis)
+                .map((dataset, i) => (
+                  <ButtonWOFormik
+                    key={i}
+                    onClick={() => toggleHideDataset(dataset.datasetKey)}
+                    className={!dataset.bVisible ? "Active" : ""}
+                    //   css={css`
+                    //     background-color: ${lighten(0.2, getColor(i)) + "40"};
+                    //     border-color: ${getColor(i)};
+                    //     &:before {
+                    //       background-color: ${getColor(i)};
+                    //     }
+                    //   `}
+                    size="small"
+                    variant="outlined"
+                  >
+                    {dataset.displayName}
+                  </ButtonWOFormik>
+                ))}
+            </div>
+            <p style={{ fontSize: "9px", float: "inline-end" }}>
+              Toggle the tab(s) to hide or view the trend
+            </p>
           </React.Fragment>
         )}
       </div>
-      {chartData && (
-        <React.Fragment>
-          <div className="LineToggles">
-            {chartData.datasets[datasetsType]
-              .filter((dataset) => !dataset.bXAxis)
-              .map((dataset, i) => (
-                <ButtonWOFormik
-                  key={i}
-                  onClick={() => toggleHideDataset(dataset.datasetKey)}
-                  className={!dataset.bVisible ? "Active" : ""}
-                  //   css={css`
-                  //     background-color: ${lighten(0.2, getColor(i)) + "40"};
-                  //     border-color: ${getColor(i)};
-                  //     &:before {
-                  //       background-color: ${getColor(i)};
-                  //     }
-                  //   `}
-                  size="small"
-                  variant="outlined"
-                >
-                  {dataset.displayName}
-                </ButtonWOFormik>
-              ))}
-          </div>
-        </React.Fragment>
-      )}
-    </div>
+    </>
   );
 };

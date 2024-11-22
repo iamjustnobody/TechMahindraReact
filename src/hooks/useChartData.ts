@@ -146,6 +146,6 @@ export const useChartData = (
         },
       ],
     };
-    return { data: chartData, datasets };
+    return { data: chartData, datasets, groupedExpenses };
   }, [filteredExpenses, timeFrame]); //[filteredExpenses, timeFrame, datasetCat]
 };

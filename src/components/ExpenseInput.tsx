@@ -109,7 +109,7 @@ export const ExpenseInput: React.FC = () => {
   );
 };
 
-const categories = [
+export const categories = [
   { value: "food", label: "Food" },
   { value: "transportation", label: "Transportation" },
   { value: "entertainment", label: "Entertainment" },
